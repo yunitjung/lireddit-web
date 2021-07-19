@@ -30,7 +30,7 @@ const Login: React.FC<{}> = ({}) => {
               <InputField name="password" placeholder="password" label="Password" type="password" />
             </Box>
             <Button mt={4} type="submit" isLoading={isSubmitting} colorScheme="teal">
-              Register
+              Login
             </Button>
           </Form>
         )}
