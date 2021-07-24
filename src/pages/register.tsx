@@ -7,7 +7,7 @@ import { useRegisterMutation } from "../generated/graphql";
 import { toErrorMap } from "../utils/toErrorMap";
 import { useRouter } from "next/router";
 import { withUrqlClient } from "next-urql";
-import { createUrqlClient } from "../utils/createUrlClient";
+import { createUrqlClient } from "../utils/createUrqlClient";
 
 interface registerProps {}
 
@@ -29,14 +29,33 @@ const Register: React.FC<registerProps> = ({}) => {
       >
         {({ isSubmitting }) => (
           <Form>
-            <InputField name="username" placeholder="username" label="Username" />
+            <InputField
+              name="username"
+              placeholder="username"
+              label="Username"
+            />
             <Box mt={4}>
-              <InputField name="email" placeholder="email" label="Email" type="email" />
+              <InputField
+                name="email"
+                placeholder="email"
+                label="Email"
+                type="email"
+              />
             </Box>
             <Box mt={4}>
-              <InputField name="password" placeholder="password" label="Password" type="password" />
+              <InputField
+                name="password"
+                placeholder="password"
+                label="Password"
+                type="password"
+              />
             </Box>
-            <Button mt={4} type="submit" isLoading={isSubmitting} colorScheme="teal">
+            <Button
+              mt={4}
+              type="submit"
+              isLoading={isSubmitting}
+              colorScheme="teal"
+            >
               Register
             </Button>
           </Form>
