@@ -1,4 +1,7 @@
-import { dedupExchange, fetchExchange } from "urql";
+import {
+  dedupExchange,
+  fetchExchange,
+} from "urql";
 import {
   LogoutMutation,
   MeQuery,
@@ -6,10 +9,12 @@ import {
   LoginMutation,
   RegisterMutation,
 } from "../generated/graphql";
-import { betterUpdateQuery } from "../pages/betterUpdateQuery";
+import { betterUpdateQuery } from "./betterUpdateQuery";
 import { cacheExchange } from "@urql/exchange-graphcache";
 
-export const createUrqlClient = (ssrExchange: any) => ({
+export const createUrqlClient = (
+  ssrExchange: any
+) => ({
   url: "http://localhost:4000/graphql",
   fetchOptions: {
     credentials: "include" as const,
@@ -19,8 +24,16 @@ export const createUrqlClient = (ssrExchange: any) => ({
     cacheExchange({
       updates: {
         Mutation: {
-          logout: (_result, args, cache, info) => {
-            betterUpdateQuery<LogoutMutation, MeQuery>(
+          logout: (
+            _result,
+            args,
+            cache,
+            info
+          ) => {
+            betterUpdateQuery<
+              LogoutMutation,
+              MeQuery
+            >(
               cache,
               { query: MeDocument },
               _result,
@@ -28,7 +41,10 @@ export const createUrqlClient = (ssrExchange: any) => ({
             );
           },
           login: (_result, args, cache, info) => {
-            betterUpdateQuery<LoginMutation, MeQuery>(
+            betterUpdateQuery<
+              LoginMutation,
+              MeQuery
+            >(
               cache,
               { query: MeDocument },
               _result,
@@ -43,8 +59,16 @@ export const createUrqlClient = (ssrExchange: any) => ({
               }
             );
           },
-          register: (_result, args, cache, info) => {
-            betterUpdateQuery<RegisterMutation, MeQuery>(
+          register: (
+            _result,
+            args,
+            cache,
+            info
+          ) => {
+            betterUpdateQuery<
+              RegisterMutation,
+              MeQuery
+            >(
               cache,
               { query: MeDocument },
               _result,
