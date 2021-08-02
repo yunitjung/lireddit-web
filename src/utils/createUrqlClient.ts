@@ -1,7 +1,4 @@
-import {
-  dedupExchange,
-  fetchExchange,
-} from "urql";
+import { dedupExchange, fetchExchange } from "urql";
 import {
   LogoutMutation,
   MeQuery,
@@ -11,10 +8,26 @@ import {
 } from "../generated/graphql";
 import { betterUpdateQuery } from "./betterUpdateQuery";
 import { cacheExchange } from "@urql/exchange-graphcache";
+import { filter, pipe, tap } from "wonka";
+import { Exchange } from "@urql/core";
+import Router from "next/router";
 
-export const createUrqlClient = (
-  ssrExchange: any
-) => ({
+const errorExchange: Exchange =
+  ({ forward }) =>
+  (ops$) => {
+    return pipe(
+      forward(ops$),
+      tap(({ error }) => {
+        if (error) {
+          if (error?.message.includes("not authenticated")) {
+            Router.replace("/login");
+          }
+        }
+      })
+    );
+  };
+
+export const createUrqlClient = (ssrExchange: any) => ({
   url: "http://localhost:4000/graphql",
   fetchOptions: {
     credentials: "include" as const,
@@ -24,16 +37,8 @@ export const createUrqlClient = (
     cacheExchange({
       updates: {
         Mutation: {
-          logout: (
-            _result,
-            args,
-            cache,
-            info
-          ) => {
-            betterUpdateQuery<
-              LogoutMutation,
-              MeQuery
-            >(
+          logout: (_result, args, cache, info) => {
+            betterUpdateQuery<LogoutMutation, MeQuery>(
               cache,
               { query: MeDocument },
               _result,
@@ -41,10 +46,7 @@ export const createUrqlClient = (
             );
           },
           login: (_result, args, cache, info) => {
-            betterUpdateQuery<
-              LoginMutation,
-              MeQuery
-            >(
+            betterUpdateQuery<LoginMutation, MeQuery>(
               cache,
               { query: MeDocument },
               _result,
@@ -59,16 +61,8 @@ export const createUrqlClient = (
               }
             );
           },
-          register: (
-            _result,
-            args,
-            cache,
-            info
-          ) => {
-            betterUpdateQuery<
-              RegisterMutation,
-              MeQuery
-            >(
+          register: (_result, args, cache, info) => {
+            betterUpdateQuery<RegisterMutation, MeQuery>(
               cache,
               { query: MeDocument },
               _result,
@@ -86,6 +80,7 @@ export const createUrqlClient = (
         },
       },
     }),
+    errorExchange,
     ssrExchange,
     fetchExchange,
   ],
