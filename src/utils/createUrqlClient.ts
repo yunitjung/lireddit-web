@@ -128,13 +128,9 @@ export const createUrqlClient = (ssrExchange: any) => ({
             );
           },
           createPost: (_result, args, cache, info) => {
-            console.log("start");
-            console.log(cache.inspectFields("Query"));
             cache.invalidate("Query", "posts", {
               limit: 15,
             });
-            console.log(cache.inspectFields("Query"));
-            console.log("end");
           },
         },
       },
