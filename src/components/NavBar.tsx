@@ -20,7 +20,7 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
     body = (
       <Flex align="center">
         <NextLink href="/create-post">
-          <Button as={Link} ml="auto" mr={4}>
+          <Button as={Link} mr={4}>
             Create Post
           </Button>
         </NextLink>
@@ -53,14 +53,7 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
   }
 
   return (
-    <Flex
-      zIndex={1}
-      position="sticky"
-      top={0}
-      bg="teal"
-      p={4}
-      align="center"
-    >
+    <Flex zIndex={1} position="sticky" top={0} bg="teal" p={4}>
       <Flex flex={1} margin="auto" align="center" maxW={800}>
         <NextLink href="/">
           <Link>
