@@ -4,6 +4,7 @@ import { Layout } from "../../components/Layout";
 import { usePostQuery } from "../../generated/graphql";
 import { createUrqlClient } from "../../utils/createUrqlClient";
 import { Heading, Box } from "@chakra-ui/react";
+import { EditDeletePostButton } from "../../components/EditDeletePostButton";
 const Post = ({}) => {
   const router = useRouter();
   const intId =
@@ -37,8 +38,12 @@ const Post = ({}) => {
 
   return (
     <Layout>
-      <Heading>{data?.post?.title}</Heading>
-      {data?.post?.text}
+      <Heading mb={4}>{data?.post?.title}</Heading>
+      <Box mb={4}>{data?.post?.text}</Box>
+      <EditDeletePostButton
+        id={data.post.id}
+        creatorId={data.post.creator.id}
+      />
     </Layout>
   );
 };
